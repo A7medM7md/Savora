@@ -1,4 +1,6 @@
-﻿namespace Savora.Domain.Entities
+﻿using Savora.Domain.Entities.Identity;
+
+namespace Savora.Domain.Entities
 {
     public class Goal : BaseEntitiy
     {

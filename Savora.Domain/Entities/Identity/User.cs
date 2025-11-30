@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Savora.Domain.Entities
+namespace Savora.Domain.Entities.Identity
 {
     public class User : IdentityUser<int>
     {
@@ -18,11 +18,16 @@ namespace Savora.Domain.Entities
         // Day of the month the salary is received (1-31)
         public int MonthlyDate { get; set; }
 
+        public bool IsSuspended { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public void ConfirmEmail() => EmailConfirmed = true;
+
         // Navigation properties
         public ICollection<Goal> Goals { get; set; }
         public ICollection<Expense> Expenses { get; set; }
         public ICollection<MonthExpense> MonthExpenses { get; set; }
-        public ICollection<Income> Incomes { get; set; } // New Income relationship
-        public ICollection<Notification> Notifications { get; set; } // New Notification relationship
+        public ICollection<Income> Incomes { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Savora.Domain.Entities.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Savora.Domain.Entities
 {

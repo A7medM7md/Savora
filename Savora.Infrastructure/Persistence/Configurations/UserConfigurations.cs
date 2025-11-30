@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Savora.Domain.Entities;
+using Savora.Domain.Entities.Identity;
 
-namespace Savora.Infrastructure.Persistence.Configurations
+namespace Savora.Application.Persistence.Configurations
 {
     public class UserConfigurations : IEntityTypeConfiguration<User>
     {

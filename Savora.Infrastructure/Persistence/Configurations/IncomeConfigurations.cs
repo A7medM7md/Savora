@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Savora.Domain.Entities;
 
-namespace Savora.Infrastructure.Persistence.Configurations
+namespace Savora.Application.Persistence.Configurations
 {
     public class IncomeConfigurations : IEntityTypeConfiguration<Income>
     {

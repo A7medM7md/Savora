@@ -1,4 +1,5 @@
-﻿using Savora.Domain.Enums;
+﻿using Savora.Domain.Entities.Identity;
+using Savora.Domain.Enums;
 
 namespace Savora.Domain.Entities
 {
