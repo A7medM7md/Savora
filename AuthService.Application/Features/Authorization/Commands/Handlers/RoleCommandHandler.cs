@@ -1,0 +1,81 @@
+﻿using MediatR;
+using Microsoft.Extensions.Localization;
+using AuthService.Application.Abstractions.Services;
+using AuthService.Application.Bases;
+using AuthService.Application.Features.Authorization.Commands.Models;
+using AuthService.Application.Resources;
+using AuthService.Domain.Commons;
+
+namespace AuthService.Application.Features.Authorization.Commands.Handlers
+{
+    public class RoleCommandHandler : ResponseHandler,
+                                        IRequestHandler<AddRoleCommand, Response<string>>,
+                                        IRequestHandler<AssignRoleCommand, Response<string>>,
+                                        IRequestHandler<EditRoleCommand, Response<string>>,
+                                        IRequestHandler<DeleteRoleCommand, Response<string>>,
+                                        IRequestHandler<UpdateUserRolesCommand, Response<string>>
+    {
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+
+        public RoleCommandHandler(IAuthorizationService authorizationService,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        {
+            _authorizationService = authorizationService;
+            _stringLocalizer = stringLocalizer;
+        }
+
+        public async Task<Response<string>> Handle(AddRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authorizationService.AddRoleAsync(request.RoleName);
+            if (!result.Succeeded)
+                return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.AddFailed]}, {IdentityErrorHelper.LocalizeErrors(result.Errors, _stringLocalizer)}");
+
+            return Created(request.RoleName, _stringLocalizer[SharedResourcesKeys.RoleAddedSuccessfully]);
+        }
+
+        public async Task<Response<string>> Handle(AssignRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authorizationService.AssignRoleAsync(request.UserId, request.RoleName);
+
+            if (!result.Succeeded)
+                return BadRequest<string>($"Failed To Assign Role: {request.RoleName}, {IdentityErrorHelper.LocalizeErrors(result.Errors, _stringLocalizer)}");
+
+            return Success(request.RoleName, $"Role: {request.RoleName} assigned successfully to user with Id: {request.UserId}");
+        }
+
+        public async Task<Response<string>> Handle(EditRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authorizationService.EditRoleAsync(request.Id, request.RoleName);
+
+            if (!result.Succeeded)
+                return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]}, {IdentityErrorHelper.LocalizeErrors(result.Errors, _stringLocalizer)}");
+
+            return Success(request.RoleName, _stringLocalizer[SharedResourcesKeys.Updated]);
+        }
+
+
+        public async Task<Response<string>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authorizationService.DeleteRoleAsync(request.Id);
+
+            return result.Status switch
+            {
+                RoleStatus.NotFound => NotFound<string>(_stringLocalizer[SharedResourcesKeys.RoleNotExist]),
+                RoleStatus.HasUsers => BadRequest<string>(SharedResourcesKeys.RoleIsUsed),
+                RoleStatus.Success => Deleted<string>(_stringLocalizer[SharedResourcesKeys.Deleted]),
+                _ => BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.DeletedFailed]}: " + IdentityErrorHelper.LocalizeErrors(result.IdentityResult?.Errors, _stringLocalizer))
+            };
+        }
+
+        public async Task<Response<string>> Handle(UpdateUserRolesCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authorizationService.UpdateUserRolesAsync(request.UserId, request.Roles);
+
+            if (!result.Succeeded)
+                return BadRequest<string>(IdentityErrorHelper.LocalizeErrors(result.Errors, _stringLocalizer));
+
+            return Success("Roles Updated Successfully");
+        }
+    }
+}

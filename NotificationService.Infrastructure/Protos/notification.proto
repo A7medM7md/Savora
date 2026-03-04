@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+option csharp_namespace = "NotificationService.Infrastructure.Protos";
+
+service Notifier {
+  rpc SendNotification (SendNotificationRequest) returns (SendNotificationResponse);
+}
+
+message SendNotificationRequest {
+  repeated string user_ids = 1; 
+  string message = 2; 
+  string event_name = 3;
+  string data = 4;
+  string recipient_email = 5;
+}
+
+message SendNotificationResponse {
+  bool success = 1; 
+}

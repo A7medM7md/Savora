@@ -1,0 +1,226 @@
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
+using AuthService.Application.Abstractions;
+using AuthService.Application.Abstractions.Services;
+using AuthService.Application.Bases;
+using AuthService.Application.Entities.Identity;
+using AuthService.Application.Features.Authentication.Commands.Models;
+using AuthService.Application.Helpers.Email;
+using AuthService.Application.Helpers.JWT;
+using AuthService.Application.Resources;
+using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.Email.UserService.Infrastructure.Services;
+using System.Net;
+using System.Text;
+
+namespace AuthService.Application.Features.Authentication.Commands.Handlers
+{
+    public class AuthenticationCommandHandler : ResponseHandler,
+                                                IRequestHandler<SignInCommand, Response<SignInResponse>>,
+                                                IRequestHandler<RefreshTokenCommand, Response<SignInResponse>>,
+                                                IRequestHandler<ValidateTokenCommand, Response<TokenValidationResponse>>,
+                                                IRequestHandler<ConfirmEmailCommand, Response<string>>,
+                                                IRequestHandler<SendResetPasswordCodeCommand, Response<string>>,
+                                                IRequestHandler<ResetPasswordCommand, Response<bool>>
+    {
+        #region Fields
+
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
+        private readonly IPasswordResetService _passwordResetService;
+        private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResources> _localizer;
+
+        #endregion
+
+
+        #region Constructors
+
+        public AuthenticationCommandHandler(IMapper mapper,
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            ITokenService tokenService,
+            IEmailService emailService,
+            IPasswordResetService passwordResetService,
+            IConfiguration config,
+            IStringLocalizer<SharedResources> localizer) : base(localizer)
+        {
+            _localizer = localizer;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _emailService = emailService;
+            _passwordResetService = passwordResetService;
+            _config = config;
+            _mapper = mapper;
+        }
+
+        #endregion
+
+
+        #region Handle Functions
+
+        public async Task<Response<SignInResponse>> Handle(SignInCommand request, CancellationToken cancellationToken)
+        {
+            // Check UserName and Password
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user is null)
+                return BadRequest<SignInResponse>(_localizer[SharedResourcesKeys.InvalidNameOrPassword]);
+
+            var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!passwordValid)
+                return BadRequest<SignInResponse>(_localizer[SharedResourcesKeys.InvalidNameOrPassword]);
+
+            // Check for lockout and email confirmation
+            // CheckPasswordSignInAsync: Check On 3 Things => Password + Lockout + ConfirmedEmail
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+
+            if (!result.Succeeded)
+            {
+                if (result.IsLockedOut)
+                    return Response<SignInResponse>.Fail(_localizer[SharedResourcesKeys.AccountLocked], HttpStatusCode.Locked); // 423 Locked
+
+                if (!user.EmailConfirmed)
+                {
+                    // Generate confirmation token & link
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenEncoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                    var baseUrl = _config["FrontendBaseUrl"]!;
+                    var confirmLink = $"{baseUrl}/api/v1/authentication/confirm-email?userId={user.Id}&token={tokenEncoded}";
+
+                    // Create email content
+                    var emailMessage = new EmailMessage
+                    {
+                        To = user.Email,
+                        Subject = "Email Confirmation",
+                        Content = EmailTemplateBuilder.BuildTokenEmail(confirmLink, user.FullName),
+                        IsHtml = true
+                    };
+
+                    // Send email
+                    await _emailService.SendEmailAsync(emailMessage, cancellationToken);
+
+                    return Response<SignInResponse>.Fail(
+                        _localizer[SharedResourcesKeys.EmailNotConfirmed] + " A new confirmation email has been sent.",
+                        HttpStatusCode.Forbidden
+                    );
+                }
+
+                return BadRequest<SignInResponse>(_localizer[SharedResourcesKeys.InvalidNameOrPassword]);
+            }
+
+            // Generate Token [access & refresh Tokens]
+            var response = await _tokenService.GenerateJwtTokenAsync(user);
+
+            // Return Tokens
+            return Success(response);
+        }
+
+        public async Task<Response<SignInResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _tokenService.RefreshTokenAsync(request.AccessToken, request.RefreshToken);
+
+            if (!result.Success)
+            {
+                return result.ErrorCode switch
+                {
+                    400 => BadRequest<SignInResponse>(_localizer[result.ErrorMessage]),
+                    401 => Unauthorized<SignInResponse>(_localizer[result.ErrorMessage]),
+                    404 => NotFound<SignInResponse>(_localizer[result.ErrorMessage]),
+                    _ => BadRequest<SignInResponse>()
+                };
+            }
+
+            return Success(result.Data!); // ! => Null-forgiving operator, ya compiler this value never be null!
+        }
+
+        public async Task<Response<TokenValidationResponse>> Handle(ValidateTokenCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _tokenService.ValidateAccessToken(request.AccessToken);
+
+            if (!result.Success)
+            {
+                return result.ErrorCode switch
+                {
+                    400 => BadRequest<TokenValidationResponse>(_localizer[result.ErrorMessage]),
+                    401 => Unauthorized<TokenValidationResponse>(_localizer[result.ErrorMessage]),
+                    404 => NotFound<TokenValidationResponse>(_localizer[result.ErrorMessage]),
+                    _ => BadRequest<TokenValidationResponse>()
+                };
+            }
+
+            return Success(result.Data!);
+        }
+
+        public async Task<Response<string>> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        {
+            // 1. Check if user exists
+            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+            if (user == null)
+                return NotFound<string>(_localizer[SharedResourcesKeys.UserIsNotFound]);
+
+            if (user.EmailConfirmed)
+                return BadRequest<string>(_localizer[SharedResourcesKeys.EmailAlreadyConfirmed]);
+
+            // 2. Decode the token
+            string decodedToken;
+            try
+            {
+                var bytes = WebEncoders.Base64UrlDecode(request.Token);
+                decodedToken = Encoding.UTF8.GetString(bytes);
+            }
+            catch
+            {
+                return BadRequest<string>(_localizer[SharedResourcesKeys.InvalidTokenFormat]);
+            }
+
+            // 3. Confirm email
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+            if (!result.Succeeded)
+                return BadRequest<string>(_localizer[SharedResourcesKeys.ErrorWhenConfirmEmail]);
+
+            // 4. Success
+            return Success<string>(_localizer[SharedResourcesKeys.ConfirmEmailDone]);
+        }
+
+        public async Task<Response<string>> Handle(SendResetPasswordCodeCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _passwordResetService.GenerateAndSendResetCodeAsync(request.Email, cancellationToken);
+
+            if (!result.Succeeded)
+                return result.StatusCode switch
+                {
+                    HttpStatusCode.NotFound => NotFound<string>(_localizer[SharedResourcesKeys.UserIsNotFound]),
+                    HttpStatusCode.InternalServerError => InternalServerError<string>(_localizer[SharedResourcesKeys.TryRequestCodeAgain], result.Errors),
+                    _ => BadRequest<string>(_localizer[result.Message])
+                };
+
+            return Success(result.Data);
+        }
+
+        public async Task<Response<bool>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _passwordResetService.ResetPasswordAsync(request.Email, request.ResetCode, request.NewPassword);
+
+            return result.StatusCode switch
+            {
+                HttpStatusCode.OK => Success(result.Data),
+                HttpStatusCode.NotFound => NotFound<bool>(_localizer[SharedResourcesKeys.UserIsNotFound]),
+                HttpStatusCode.InternalServerError => InternalServerError<bool>(_localizer[SharedResourcesKeys.TryRequestCodeAgain], result.Errors),
+                _ => BadRequest<bool>(_localizer[result.Message])
+            };
+        }
+
+
+        #endregion
+
+
+    }
+}

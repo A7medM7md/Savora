@@ -1,0 +1,19 @@
+﻿using System.Globalization;
+
+namespace AuthService.Domain.Commons
+{
+    public static class LocalizableEntityExtensions
+    {
+        public static string? GetLocalizedName(this ILocalizableEntity entity)
+        {
+            if (entity is null) return string.Empty;
+
+            CultureInfo culture = Thread.CurrentThread.CurrentCulture;
+
+            // Get First 2 Letters In Word [ar-EG --> ar]
+            return culture.TwoLetterISOLanguageName.ToLower().Equals("ar")
+                ? entity.NameAr
+                : entity.NameEn;
+        }
+    }
+}
