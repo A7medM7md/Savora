@@ -1,6 +1,11 @@
 <Solution>
-  <Folder Name="/docker/" />
+  <Folder Name="/docker/">
+    <File Path="docker/docker-compose.yml" />
+  </Folder>
   <Folder Name="/gateway/" />
+  <Folder Name="/gateway/ApiGateway/">
+    <File Path="gateway/ApiGateway/Program.cs" />
+  </Folder>
   <Folder Name="/services/" />
   <Folder Name="/services/auth-service/">
     <Project Path="services/auth-service/AuthService.Api/AuthService.Api.csproj" />
@@ -14,5 +19,7 @@
     <Project Path="services/notification-service/NotificationService.Domain/NotificationService.Domain.csproj" />
     <Project Path="services/notification-service/NotificationService.Infrastructure/NotificationService.Infrastructure.csproj" />
   </Folder>
-  <Folder Name="/shared/" />
+  <Folder Name="/shared/">
+    <Project Path="shared/Shared.Common/Shared.Common.csproj" Id="98e9d158-b857-4fb0-b6b2-7671fde9f72f" />
+  </Folder>
 </Solution>
