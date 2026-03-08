@@ -1,6 +1,6 @@
-﻿using AuthService.Application.Bases;
-using AuthService.Application.Entities.Identity;
-using AuthService.Application.Helpers.JWT;
+﻿using AuthService.Domain.Commons;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.JWT;
 
 namespace AuthService.Application.Abstractions.Services
 {

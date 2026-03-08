@@ -1,10 +1,10 @@
 ﻿using AuthService.Application.Abstractions.Services;
 using AuthService.Application.Bases;
-using AuthService.Application.Entities.Identity;
 using AuthService.Application.Features.OAuth.Commands.Models;
-using AuthService.Application.Helpers.JWT;
 using AuthService.Application.Resources;
 using AuthService.Domain.Commons;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.JWT;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

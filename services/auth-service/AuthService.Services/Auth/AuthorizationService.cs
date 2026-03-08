@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using AuthService.Application.Abstractions.Repositories;
+﻿using AuthService.Application.Abstractions.Repositories;
 using AuthService.Application.Abstractions.Services;
-using AuthService.Application.Bases;
 using AuthService.Application.Dtos;
-using AuthService.Application.Entities.Identity;
-using AuthService.Application.Helpers.AuthZ;
 using AuthService.Domain.Commons;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.AuthZ;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Net;
 using System.Security.Claims;

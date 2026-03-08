@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AuthService.Application.Abstractions.Repositories;
-using AuthService.Application.Entities.Identity;
+﻿using AuthService.Application.Abstractions.Repositories;
+using AuthService.Domain.Entities.Identity;
 using AuthService.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Infrastructure.Repositories
 {
     internal class RefreshTokenRepository : GenericRepositoryAsync<RefreshToken>, IRefreshTokenRepository
     {
-        public RefreshTokenRepository(SmartCRMContext dbContext) : base(dbContext)
+        public RefreshTokenRepository(SavoraAuthContext dbContext) : base(dbContext)
         {
         }
 

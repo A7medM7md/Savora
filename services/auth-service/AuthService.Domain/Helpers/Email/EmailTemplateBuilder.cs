@@ -1,12 +1,10 @@
 ﻿namespace AuthService.Domain.Helpers.Email
 {
-    namespace UserService.Infrastructure.Services
+    public class EmailTemplateBuilder
     {
-        public class EmailTemplateBuilder
+        public static string BuildTokenEmail(string link, string userName = "User")
         {
-            public static string BuildTokenEmail(string link, string userName = "User")
-            {
-                return $@"
+            return $@"
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -42,12 +40,12 @@
                         </div>
                     </body>
                     </html>";
-            }
+        }
 
 
-            public static string BuildResetPasswordEmail(string token, string userName = "User")
-            {
-                return $@"
+        public static string BuildResetPasswordEmail(string token, string userName = "User")
+        {
+            return $@"
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -70,8 +68,6 @@
                         </div>
                     </body>
                     </html>";
-            }
         }
     }
-
 }

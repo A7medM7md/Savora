@@ -1,11 +1,10 @@
 ﻿using AuthService.Application.Abstractions.Services;
 using AuthService.Application.Bases;
-using AuthService.Application.Entities.Identity;
 using AuthService.Application.Features.Users.Commands.Models;
-using AuthService.Application.Helpers.Email;
 using AuthService.Application.Resources;
 using AuthService.Domain.Commons;
-using AuthService.Domain.Helpers.Email.UserService.Infrastructure.Services;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.Email;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;

@@ -1,5 +1,5 @@
-﻿using AuthService.Application.Helpers.JWT;
-using AuthService.Domain.Commons;
+﻿using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.JWT;
 using MediatR;
 
 namespace AuthService.Application.Features.OAuth.Commands.Models

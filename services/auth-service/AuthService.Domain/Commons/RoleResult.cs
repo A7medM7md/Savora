@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AuthService.Application.Bases
+namespace AuthService.Domain.Commons
 {
     public enum RoleStatus
     {

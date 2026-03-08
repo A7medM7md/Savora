@@ -2,9 +2,8 @@
   <Folder Name="/docker/">
     <File Path="docker/docker-compose.yml" />
   </Folder>
-  <Folder Name="/gateway/" />
-  <Folder Name="/gateway/ApiGateway/">
-    <File Path="gateway/ApiGateway/Program.cs" />
+  <Folder Name="/gateway/">
+    <Project Path="gateway/ApiGateway/ApiGateway.csproj" Id="d22a76ad-b965-4d21-89b9-ba4bc0cefc61" />
   </Folder>
   <Folder Name="/services/" />
   <Folder Name="/services/auth-service/">
@@ -13,6 +12,13 @@
     <Project Path="services/auth-service/AuthService.Domain/AuthService.Domain.csproj" />
     <Project Path="services/auth-service/AuthService.Infrastructure/AuthService.Infrastructure.csproj" />
     <Project Path="services/auth-service/AuthService.Services/AuthService.Services.csproj" />
+  </Folder>
+  <Folder Name="/services/expense-service/">
+    <Project Path="services/expense-service/ExpenseService.Api/ExpenseService.Api.csproj" Id="4f80291b-d987-42b3-aba8-19289be06675" />
+    <Project Path="services/expense-service/ExpenseService.Application/ExpenseService.Application.csproj" Id="a25b5c95-0d57-4af7-bbaf-800673be80bf" />
+    <Project Path="services/expense-service/ExpenseService.Domain/ExpenseService.Domain.csproj" Id="d7aac6b1-a3c1-4305-b84f-a229f34353d4" />
+    <Project Path="services/expense-service/ExpenseService.Infrastructure/ExpenseService.Infrastructure.csproj" Id="14186ccc-4689-4e4b-ae81-479497b71f02" />
+    <Project Path="services/expense-service/ExpenseService.Services/ExpenseService.Services.csproj" Id="ca564706-d81a-44c6-8a98-22c4d34f26f9" />
   </Folder>
   <Folder Name="/services/notification-service/">
     <Project Path="services/notification-service/NotificationService.Api/NotificationService.Api.csproj" />

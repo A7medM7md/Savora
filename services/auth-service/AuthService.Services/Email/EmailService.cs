@@ -1,6 +1,6 @@
 ﻿using AuthService.Application.Abstractions.Services;
-using AuthService.Application.Helpers.Email;
 using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.Email;
 using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;

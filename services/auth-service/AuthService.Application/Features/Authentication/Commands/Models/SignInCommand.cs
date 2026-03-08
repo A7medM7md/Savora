@@ -1,6 +1,6 @@
-﻿using MediatR;
-using AuthService.Application.Helpers.JWT;
-using AuthService.Domain.Commons;
+﻿using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.JWT;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthService.Application.Features.Authentication.Commands.Models

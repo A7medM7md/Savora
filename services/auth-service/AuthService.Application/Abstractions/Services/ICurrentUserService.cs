@@ -1,4 +1,4 @@
-﻿using AuthService.Application.Entities.Identity;
+﻿using AuthService.Domain.Entities.Identity;
 
 namespace AuthService.Application.Abstractions.Services
 {

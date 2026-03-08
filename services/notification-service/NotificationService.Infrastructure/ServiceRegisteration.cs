@@ -15,7 +15,8 @@ namespace NotificationService.Infrastructure
             //Swagger Gen
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotificationService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                { Title = "Savora notification-service", Version = "v1" });
                 c.EnableAnnotations();
 
                 c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme

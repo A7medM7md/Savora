@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AuthService.Application.Abstractions.Services;
+using AuthService.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using AuthService.Application.Abstractions.Services;
-using AuthService.Application.Entities.Identity;
 using System.Security.Claims;
 
 namespace AuthService.Services.Auth

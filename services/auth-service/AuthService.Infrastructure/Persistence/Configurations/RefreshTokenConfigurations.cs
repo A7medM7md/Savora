@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AuthService.Domain.Entities.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using AuthService.Application.Entities.Identity;
 
 namespace AuthService.Infrastructure.Persistence.Configurations
 {

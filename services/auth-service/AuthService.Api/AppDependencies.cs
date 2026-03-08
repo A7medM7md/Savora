@@ -1,7 +1,7 @@
 ﻿using AuthService.Application;
-using AuthService.Application.Entities.Identity;
-using AuthService.Application.Helpers.Email;
-using AuthService.Application.Helpers.JWT;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.Email;
+using AuthService.Domain.Helpers.JWT;
 using AuthService.Infrastructure;
 using AuthService.Infrastructure.Persistence.Contexts;
 using AuthService.Services;
@@ -68,7 +68,7 @@ namespace AuthService.Api
                 options.Password.RequireDigit = true;
                 options.Password.RequireNonAlphanumeric = true;
             })
-            .AddEntityFrameworkStores<SmartCRMContext>()
+            .AddEntityFrameworkStores<SavoraAuthContext>()
             .AddDefaultTokenProviders();
 
 
@@ -149,7 +149,7 @@ namespace AuthService.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
-                { Title = "Smart CRM", Version = "1.0.0" });
+                { Title = "Savora auth-service", Version = "1.0.0" });
                 c.EnableAnnotations();
 
                 c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme

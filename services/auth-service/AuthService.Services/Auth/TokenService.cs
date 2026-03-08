@@ -1,8 +1,8 @@
 ﻿using AuthService.Application.Abstractions.Repositories;
 using AuthService.Application.Abstractions.Services;
-using AuthService.Application.Bases;
-using AuthService.Application.Entities.Identity;
-using AuthService.Application.Helpers.JWT;
+using AuthService.Domain.Commons;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.JWT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

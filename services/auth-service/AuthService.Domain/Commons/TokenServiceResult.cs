@@ -1,4 +1,4 @@
-﻿namespace AuthService.Application.Bases
+﻿namespace AuthService.Domain.Commons
 {
     public class TokenServiceResult<T>
     {

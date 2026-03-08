@@ -13,7 +13,7 @@ namespace AuthService.Infrastructure
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             // Configure DbContext
-            services.AddDbContext<SmartCRMContext>(options =>
+            services.AddDbContext<SavoraAuthContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));

@@ -1,5 +1,5 @@
-﻿using AuthService.Application.Entities.Identity;
-using AuthService.Application.Features.Users.Commands.Models;
+﻿using AuthService.Application.Features.Users.Commands.Models;
+using AuthService.Domain.Entities.Identity;
 
 namespace AuthService.Application.Mapping.Users
 {

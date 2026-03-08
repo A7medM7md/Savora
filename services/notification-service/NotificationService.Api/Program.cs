@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SavoraNotificationsContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddServiceRegisteration(builder.Configuration);

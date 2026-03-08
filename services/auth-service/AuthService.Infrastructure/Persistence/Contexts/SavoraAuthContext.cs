@@ -1,13 +1,13 @@
+using AuthService.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using AuthService.Application.Entities.Identity;
 
 namespace AuthService.Infrastructure.Persistence.Contexts
 {
-    public class SmartCRMContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
+    public class SavoraAuthContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
     {
-        public SmartCRMContext(DbContextOptions<SmartCRMContext> options)
+        public SavoraAuthContext(DbContextOptions<SavoraAuthContext> options)
             : base(options)
         {
         }

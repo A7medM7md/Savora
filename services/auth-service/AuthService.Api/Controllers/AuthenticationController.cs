@@ -1,11 +1,10 @@
 ﻿using AuthService.Api.Bases;
-using AuthService.Application.Bases;
 using AuthService.Application.Features.Authentication.Commands.Models;
 using AuthService.Application.Features.Authentication.Queries.Models;
 using AuthService.Application.Features.OAuth.Commands.Models;
 using AuthService.Application.Features.Users.Commands.Models;
-using AuthService.Application.Helpers.JWT;
 using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.JWT;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.Api.Controllers

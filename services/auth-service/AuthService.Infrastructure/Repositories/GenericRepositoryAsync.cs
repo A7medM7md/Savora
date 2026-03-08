@@ -7,8 +7,8 @@ namespace AuthService.Infrastructure.Repositories
 {
     public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : class
     {
-        protected readonly SmartCRMContext _dbContext;
-        public GenericRepositoryAsync(SmartCRMContext dbContext)
+        protected readonly SavoraAuthContext _dbContext;
+        public GenericRepositoryAsync(SavoraAuthContext dbContext)
         {
             _dbContext = dbContext;
         }

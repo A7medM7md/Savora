@@ -1,4 +1,4 @@
-﻿using AuthService.Application.Entities.Identity;
+﻿using AuthService.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace AuthService.Infrastructure.DataSeeding
@@ -8,7 +8,7 @@ namespace AuthService.Infrastructure.DataSeeding
         public static async Task SeedAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             // Admin user
-            var adminEmail = "admin@smart-crm.com";
+            var adminEmail = "admin@savora.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)

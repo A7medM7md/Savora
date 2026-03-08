@@ -1,4 +1,4 @@
-﻿namespace AuthService.Application.Helpers.JWT
+﻿namespace AuthService.Domain.Helpers.JWT
 {
     public class JWTSettings
     {

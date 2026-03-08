@@ -1,6 +1,6 @@
 using AuthService.Api;
-using AuthService.Application.Entities.Identity;
 using AuthService.Application.Middlewares;
+using AuthService.Domain.Entities.Identity;
 using AuthService.Infrastructure.DataSeeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

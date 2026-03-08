@@ -1,15 +1,15 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using AuthService.Application.Bases;
-using AuthService.Application.Entities.Identity;
+﻿using AuthService.Application.Bases;
 using AuthService.Application.Features.Users.Queries.Models;
 using AuthService.Application.Features.Users.Queries.Responses;
 using AuthService.Application.Resources;
 using AuthService.Application.Wrappers;
 using AuthService.Domain.Commons;
+using AuthService.Domain.Entities.Identity;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace AuthService.Application.Features.Users.Queries.Handlers
 {

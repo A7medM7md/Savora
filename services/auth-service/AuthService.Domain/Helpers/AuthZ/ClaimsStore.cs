@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace AuthService.Application.Helpers.AuthZ
+namespace AuthService.Domain.Helpers.AuthZ
 {
     public static class ClaimsStore
     {

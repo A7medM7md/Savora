@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using AuthService.Application.Abstractions;
-using AuthService.Application.Abstractions.Services;
-using AuthService.Application.Entities.Identity;
-using AuthService.Application.Helpers.Email;
+﻿using AuthService.Application.Abstractions.Services;
 using AuthService.Domain.Commons;
-using AuthService.Domain.Helpers.Email.UserService.Infrastructure.Services;
+using AuthService.Domain.Entities.Identity;
+using AuthService.Domain.Helpers.Email;
 using AuthService.Infrastructure.Persistence.Contexts;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Security.Cryptography;
-using static System.Net.WebRequestMethods;
 
 namespace AuthService.Services.Auth
 {
@@ -16,11 +13,11 @@ namespace AuthService.Services.Auth
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
-        private readonly SmartCRMContext _context;
+        private readonly SavoraAuthContext _context;
 
         public PasswordResetService(UserManager<AppUser> userManager,
             IEmailService emailService,
-            SmartCRMContext Context)
+            SavoraAuthContext Context)
         {
             _userManager = userManager;
             _emailService = emailService;

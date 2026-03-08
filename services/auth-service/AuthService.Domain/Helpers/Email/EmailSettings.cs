@@ -1,4 +1,4 @@
-﻿namespace AuthService.Application.Helpers.Email
+﻿namespace AuthService.Domain.Helpers.Email
 {
     public class EmailSettings
     {

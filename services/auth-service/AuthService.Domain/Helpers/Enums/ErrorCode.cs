@@ -1,4 +1,4 @@
-﻿namespace AuthService.Domain.Enums
+﻿namespace AuthService.Domain.Helpers.Enums
 {
     public enum ErrorCode
     {

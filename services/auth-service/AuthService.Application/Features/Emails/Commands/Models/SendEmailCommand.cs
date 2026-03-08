@@ -1,6 +1,6 @@
-﻿using MediatR;
-using AuthService.Application.Helpers.Email;
-using AuthService.Domain.Commons;
+﻿using AuthService.Domain.Commons;
+using AuthService.Domain.Helpers.Email;
+using MediatR;
 
 namespace AuthService.Application.Features.Emails.Commands.Models
 {

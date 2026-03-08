@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExpenseService.Domain\ExpenseService.Domain.csproj" />
+    <ProjectReference Include="..\ExpenseService.Infrastructure\ExpenseService.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
