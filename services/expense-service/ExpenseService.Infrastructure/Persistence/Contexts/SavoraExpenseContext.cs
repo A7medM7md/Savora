@@ -6,6 +6,15 @@ namespace ExpenseService.Infrastructure.Persistence.Contexts
 {
     public class SavoraExpenseContext(DbContextOptions<SavoraExpenseContext> options) : DbContext(options)
     {
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(typeof(SavoraExpenseContext).Assembly);
+        }
+
+
         // Core
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }

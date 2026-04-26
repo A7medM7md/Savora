@@ -22,9 +22,22 @@
           "Port": 7278
         }
       ],
-      "UpstreamPathTemplate": "/notification/{everything}",
+      "UpstreamPathTemplate": "/notifications/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "SwaggerKey": "notification"
+      "SwaggerKey": "notifications"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7084
+        }
+      ],
+      "UpstreamPathTemplate": "/expenses/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "expenses"
     }
   ],
   "SwaggerEndPoints": [
@@ -39,12 +52,22 @@
       ]
     },
     {
-      "Key": "notification",
+      "Key": "notifications",
       "Config": [
         {
-          "Name": "Notification Service",
+          "Name": "Notifications Service",
           "Version": "v1",
           "Url": "https://localhost:7278/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "expenses",
+      "Config": [
+        {
+          "Name": "Expense Service",
+          "Version": "v1",
+          "Url": "https://localhost:7084/swagger/v1/swagger.json"
         }
       ]
     }

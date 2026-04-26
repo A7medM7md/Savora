@@ -17,4 +17,10 @@ app.UseSwaggerForOcelotUI(opt =>
 
 await app.UseOcelot();
 
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
+
 app.Run();
