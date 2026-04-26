@@ -1,6 +1,6 @@
 # Savora – Smart Expense & Financial Planning Platform
 
-Savora is a **modern microservices-based expense tracking and financial planning platform** designed to help users monitor their spending, manage monthly budgets, and achieve financial goals using smart insights and automation.
+Savora is a **modern modular-monolith-based expense tracking and financial planning platform** designed to help users monitor their spending, manage monthly budgets, and achieve financial goals using smart insights and automation.
 
 The platform is designed with **scalability, modularity, and real-world backend architecture** in mind, making it a strong demonstration of modern backend engineering practices using **.NET and microservices**.
 
